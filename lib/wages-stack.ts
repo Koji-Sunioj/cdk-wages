@@ -9,8 +9,7 @@ export class WagesStack extends Stack {
     super(scope, id, props);
 
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
-    console.log("line 12", websiteUrl);
 
-    new sesStack(this, "Ses-Stack", websiteUrl);
+    new sesStack(this, "Ses-Stack");
   }
 }

@@ -38,7 +38,7 @@ export class websiteStack extends Construct {
     const deployment = new s3Deploy.BucketDeployment(this, "BucketDeployment", {
       sources: [
         s3Deploy.Source.asset(
-          path.resolve(__dirname, "../wages-frontend/build")
+          path.resolve(__dirname, "./wages-frontend/build")
         ),
       ],
       cacheControl: [

@@ -47,6 +47,6 @@ export class websiteStack extends Construct {
       distributionPaths: ["/*"],
     });
 
-    this.websiteUrl = deployment.deployedBucket.bucketWebsiteUrl;
+    this.websiteUrl = distribution.distributionDomainName;
   }
 }

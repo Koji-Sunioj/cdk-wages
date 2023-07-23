@@ -12,7 +12,7 @@ export class sesStack extends Construct {
     new ses.CfnTemplate(this, "FastApiTemplate", {
       template: {
         subjectPart: "Reset your password",
-        htmlPart: `<p>please follow this <a href=${website}>link</a> to reset your password.</p>`,
+        htmlPart: `<p>please follow this <a href=${website}/forgot-password?token={{token}}>link</a> to reset your password.</p>`,
         templateName: "FASTAPI_RESET_TOKEN",
         textPart: "",
       },

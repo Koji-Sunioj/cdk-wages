@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { Stack, StackProps } from "aws-cdk-lib";
 
 import { sesStack } from "./ses-stack";
+import { dbStack } from "./db-stack";
 import { websiteStack } from "./website-stack";
 
 export class WagesStack extends Stack {
@@ -11,5 +12,7 @@ export class WagesStack extends Stack {
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
 
     new sesStack(this, "Ses-Stack");
+
+    new dbStack(this, "Db-Stack");
   }
 }

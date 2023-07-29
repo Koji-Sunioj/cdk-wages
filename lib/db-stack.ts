@@ -3,9 +3,10 @@ import * as rds from "aws-cdk-lib/aws-rds";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 export class dbStack extends Construct {
+  public readonly dbSecretKey: string;
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    const vpc = new ec2.Vpc(this, "Aurora-VPC", {
+    const vpc = new ec2.Vpc(this, "Rds-Vpc", {
       natGateways: 1,
     });
 
@@ -23,5 +24,7 @@ export class dbStack extends Construct {
       databaseName: "wages",
       deletionProtection: true,
     });
+
+    this.dbSecretKey = dataBase.secret?.secretName!;
   }
 }

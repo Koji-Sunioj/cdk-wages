@@ -6,6 +6,8 @@ import { readFileSync } from "fs";
 
 export interface Ec2StackProps {
   vpc: ec2.Vpc;
+  dbSecretKey: string;
+  frontEndSecret: string;
 }
 
 export class Ec2Stack extends Stack {
@@ -20,8 +22,7 @@ export class Ec2Stack extends Stack {
     ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443));
     ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80));
 
-    /* const initScript = readFileSync("./assets/init.sh", "utf8"); */
-    const initScript = readFileSync("./lib/user-data.sh", "utf8");
+    const initScript = readFileSync("./assets/init.sh", "utf8");
 
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t3.micro"),
@@ -36,9 +37,10 @@ export class Ec2Stack extends Stack {
       securityGroup: ec2SecurityGroup,
       keyName: "hey",
       userDataCausesReplacement: true,
-      detailedMonitoring: true,
     });
 
     instance.addUserData(initScript);
+    instance.addUserData(`export DB_SECRET=${props.dbSecretKey}`);
+    instance.addUserData(`export FE_SECRET=${props.frontEndSecret}`);
   }
 }

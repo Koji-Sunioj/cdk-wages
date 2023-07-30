@@ -16,7 +16,7 @@ export class WagesStack extends Stack {
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
     const { dbSecretKey, targetVpc } = new dbStack(this, "Db-Stack");
 
-    new secretsManager.Secret(this, "Secret", {
+    const frontEndSecret = new secretsManager.Secret(this, "Secret", {
       secretName: "wages_frontend",
       secretObjectValue: {
         FE_HOST: SecretValue.unsafePlainText(websiteUrl),
@@ -24,6 +24,10 @@ export class WagesStack extends Stack {
       },
     });
 
-    new Ec2Stack(this, "Ec2Stack", { vpc: targetVpc });
+    new Ec2Stack(this, "Ec2Stack", {
+      vpc: targetVpc,
+      dbSecretKey: dbSecretKey,
+      frontEndSecret: frontEndSecret.secretName,
+    });
   }
 }

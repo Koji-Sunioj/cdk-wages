@@ -27,6 +27,8 @@ export class dbStack extends Construct {
       deletionProtection: false,
     });
 
+    dataBase.connections.allowFromAnyIpv4(ec2.Port.tcp(5432));
+
     this.dbSecretKey = dataBase.secret?.secretName!;
     this.targetVpc = vpc;
   }

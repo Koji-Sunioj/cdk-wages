@@ -40,7 +40,12 @@ export class Ec2Stack extends Stack {
     });
 
     instance.addUserData(initScript);
-    instance.addUserData(`export DB_SECRET=${props.dbSecretKey}`);
-    instance.addUserData(`export FE_SECRET=${props.frontEndSecret}`);
+    instance.addUserData(
+      `export DB_SECRET=${props.dbSecretKey}  >> /etc/environment`
+    );
+    instance.addUserData(
+      `export FE_SECRET=${props.frontEndSecret}  >> /etc/environment`
+    );
+    instance.addUserData("source /etc/environment");
   }
 }

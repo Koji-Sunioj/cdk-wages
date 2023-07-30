@@ -1,10 +1,6 @@
 #!/bin/bash
-
-sudo su
-yum update -y
-yum install -y httpd
-
-systemctl start httpd
-systemctl enable httpd
-
-echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
+sudo apt-get update
+sudo apt-get install python3-pip postgresql libpq-dev
+git clone https://github.com/Koji-Sunioj/fastapi-wages.git
+cd fastapi-wages/
+pip install -r requirements.txt

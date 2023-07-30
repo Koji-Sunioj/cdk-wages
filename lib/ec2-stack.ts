@@ -15,6 +15,8 @@ export class Ec2Stack extends Stack {
     });
 
     ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22));
+    ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443));
+    ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80));
 
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t3.micro"),

@@ -6,7 +6,7 @@ export class dbStack extends Construct {
   public readonly dbSecretKey: string;
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    const vpc = new ec2.Vpc(this, "Rds-Vpc", {
+    const vpc = new ec2.Vpc(this, "WagesVpc", {
       natGateways: 1,
     });
 
@@ -14,7 +14,7 @@ export class dbStack extends Construct {
       version: rds.PostgresEngineVersion.VER_15_2,
     });
 
-    const dataBase = new rds.DatabaseInstance(this, "Database", {
+    const dataBase = new rds.DatabaseInstance(this, "WagesDatabase", {
       engine,
       vpc,
       instanceType: ec2.InstanceType.of(
@@ -22,7 +22,7 @@ export class dbStack extends Construct {
         ec2.InstanceSize.MICRO
       ),
       databaseName: "wages",
-      deletionProtection: true,
+      deletionProtection: false,
     });
 
     this.dbSecretKey = dataBase.secret?.secretName!;

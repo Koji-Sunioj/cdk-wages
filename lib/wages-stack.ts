@@ -13,12 +13,12 @@ export class WagesStack extends Stack {
     super(scope, id, props);
     new sesStack(this, "Ses-Stack");
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
-    /* const { dbSecretKey } = new dbStack(this, "Db-Stack"); */
+    const { dbSecretKey } = new dbStack(this, "Db-Stack");
 
     new secretsManager.Secret(this, "Secret", {
       secretName: "wages_frontend",
       secretObjectValue: {
-        FE_SECRET: SecretValue.unsafePlainText(websiteUrl),
+        FE_HOST: SecretValue.unsafePlainText(websiteUrl),
         SECRET: SecretValue.unsafePlainText(uuidv4()),
       },
     });

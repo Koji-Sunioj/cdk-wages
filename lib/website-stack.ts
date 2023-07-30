@@ -12,7 +12,7 @@ export class websiteStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const bucket = new s3.Bucket(this, "Bucket", {
+    const bucket = new s3.Bucket(this, "DeploymentBucket", {
       accessControl: s3.BucketAccessControl.PRIVATE,
     });
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(
@@ -21,21 +21,25 @@ export class websiteStack extends Construct {
     );
     bucket.grantRead(originAccessIdentity);
 
-    const distribution = new cloudfront.Distribution(this, "Distribution", {
-      defaultRootObject: "index.html",
-      defaultBehavior: {
-        origin: new origin.S3Origin(bucket, { originAccessIdentity }),
-      },
-      errorResponses: [
-        {
-          httpStatus: 404,
-          responseHttpStatus: 200,
-          responsePagePath: "/index.html",
+    const distribution = new cloudfront.Distribution(
+      this,
+      "WagesDistribution",
+      {
+        defaultRootObject: "index.html",
+        defaultBehavior: {
+          origin: new origin.S3Origin(bucket, { originAccessIdentity }),
         },
-      ],
-    });
+        errorResponses: [
+          {
+            httpStatus: 404,
+            responseHttpStatus: 200,
+            responsePagePath: "/index.html",
+          },
+        ],
+      }
+    );
 
-    const deployment = new s3Deploy.BucketDeployment(this, "BucketDeployment", {
+    const deployment = new s3Deploy.BucketDeployment(this, "CfnDeployment", {
       sources: [
         s3Deploy.Source.asset(path.resolve(__dirname, "../frontend_build")),
       ],

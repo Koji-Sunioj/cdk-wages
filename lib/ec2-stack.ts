@@ -35,6 +35,7 @@ export class Ec2Stack extends Stack {
       securityGroup: ec2SecurityGroup,
       keyName: "hey",
       userDataCausesReplacement: true,
+      detailedMonitoring: true,
     });
 
     instance.addUserData(initScript);

@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 export class WagesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-    const { emailIdName } = new sesStack(this, "Ses-Stack");
+    new sesStack(this, "Ses-Stack");
 
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
     const { dbSecretKey, dbSecretKeyARN, targetVpc } = new dbStack(
@@ -27,8 +27,7 @@ export class WagesStack extends Stack {
       },
     });
 
-    const emailTemplateArn = `arn:aws:ses:${this.region}:${this.account}:identity/${emailIdName}`;
-    console.log(emailTemplateArn);
+    const emailTemplateArn = `arn:aws:ses:${this.region}:${this.account}:identity/ironpond.net`;
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,

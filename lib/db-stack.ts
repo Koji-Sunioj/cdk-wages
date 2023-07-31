@@ -35,7 +35,6 @@ export class dbStack extends Construct {
       ),
       databaseName: "wages",
       deletionProtection: false,
-      publiclyAccessible: false,
     });
 
     dataBase.connections.allowFromAnyIpv4(ec2.Port.tcp(5432));

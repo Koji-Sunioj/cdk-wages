@@ -40,7 +40,7 @@ export class Ec2Stack extends Stack {
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t4g.nano"),
       machineImage: ec2.MachineImage.genericLinux({
-        "eu-north-1": "ami-0989fb15ce71ba39e",
+        "eu-north-1": "ami-0ebb6753c095cb52a",
       }),
       vpc: props.vpc,
       instanceName: "WagesVM",

@@ -9,7 +9,7 @@ export class dbStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
     const vpc = new ec2.Vpc(this, "WagesVpc", {
-      natGateways: 1,
+      natGateways: 0,
     });
 
     const engine = rds.DatabaseInstanceEngine.postgres({

@@ -17,7 +17,6 @@ export class WagesStack extends Stack {
     const { dbSecretKey, targetVpc } = new dbStack(this, "Db-Stack");
 
     const frontEndSecret = new secretsManager.Secret(this, "Secret", {
-      secretName: "wages_frontend",
       secretObjectValue: {
         FE_HOST: SecretValue.unsafePlainText(websiteUrl),
         SECRET: SecretValue.unsafePlainText(uuidv4()),

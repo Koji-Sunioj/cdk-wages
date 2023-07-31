@@ -12,6 +12,7 @@ export interface Ec2StackProps {
   dbSecretARN: string;
   frontEndSecret: string;
   frontEndSecretARN: string;
+  emailTemplateArn: string;
 }
 
 export class Ec2Stack extends Stack {
@@ -34,6 +35,13 @@ export class Ec2Stack extends Stack {
       new iam.PolicyStatement({
         actions: ["secretsmanager:GetSecretValue"],
         resources: [props.dbSecretARN, props.frontEndSecretARN],
+      })
+    );
+
+    role.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["ses:SendTemplatedEmail"],
+        resources: [props.emailTemplateArn],
       })
     );
 
@@ -63,19 +71,5 @@ export class Ec2Stack extends Stack {
       export DB_SECRET\nexport FE_SECRET`
     );
     instance.addUserData(postInitScript);
-
-    /* instance.addUserData("source /etc/environment");
-    instance.addUserData(
-      "printf 'server {\n\
-        listen 80;\n\
-        server_name %s;\n\
-        location / {\n\
-            proxy_pass http://127.0.0.1:8000;\n\
-      }\n\
-    }' $PUBLICIP > /etc/nginx/sites-enabled/fastapi_nginx"
-    );
-    instance.addUserData(
-      "service nginx restart\necho $DB_SECRET \nuvicorn main:app --reload"
-    ); */
   }
 }

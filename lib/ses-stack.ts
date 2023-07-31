@@ -2,10 +2,12 @@ import { Construct } from "constructs";
 import * as ses from "aws-cdk-lib/aws-ses";
 
 export class sesStack extends Construct {
+  public readonly emailIdName: string;
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new ses.EmailIdentity(this, "Identity", {
+    const emailIdentity = new ses.EmailIdentity(this, "Identity", {
       identity: ses.Identity.domain("ironpond.net"),
     });
 
@@ -17,5 +19,7 @@ export class sesStack extends Construct {
         textPart: "",
       },
     });
+
+    this.emailIdName = emailIdentity.emailIdentityName;
   }
 }

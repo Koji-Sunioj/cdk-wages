@@ -71,7 +71,7 @@ export class Ec2Stack extends Stack {
     }' $PUBLICIP > /etc/nginx/sites-enabled/fastapi_nginx"
     );
     instance.addUserData(
-      "service nginx restart\necho $PUBLICIP\nuvicorn main:app --reload"
+      "service nginx restart\necho $DB_SECRET\nuvicorn main:app --reload"
     );
   }
 }

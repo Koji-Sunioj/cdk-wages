@@ -31,7 +31,7 @@ export class dbStack extends Construct {
       vpc,
       instanceType: ec2.InstanceType.of(
         ec2.InstanceClass.T4G,
-        ec2.InstanceSize.NANO
+        ec2.InstanceSize.MICRO
       ),
       databaseName: "wages",
       deletionProtection: false,

@@ -13,6 +13,7 @@ export class WagesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
     new sesStack(this, "Ses-Stack");
+
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
     const { dbSecretKey, targetVpc } = new dbStack(this, "Db-Stack");
 

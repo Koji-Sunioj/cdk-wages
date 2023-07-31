@@ -63,17 +63,17 @@ export class Ec2Stack extends Stack {
       `echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment`
     );
     instance.addUserData("source /etc/environment");
-    /* instance.addUserData(
-      `echo 'server {\
-      listen 80;\
-      server_name ${instance.instancePublicIp};\
-      location / {\
-          proxy_pass http://127.0.0.1:8000;\
+    instance.addUserData(
+      "printf 'server {\
+        listen 80;\
+        server_name %s\
+        location / {\
+            proxy_pass http://127.0.0.1:8000;\
       }\
-      }' >> /etc/nginx/sites-enabled/fastapi_nginx`
+    }' $PUBLICIP > /etc/nginx/sites-enabled/fastapi_nginx"
     );
     instance.addUserData(
       "service nginx restart && cd fastapi-wages/ && uvicorn main:app --reload"
-    ); */
+    );
   }
 }

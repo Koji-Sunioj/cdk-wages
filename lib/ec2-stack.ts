@@ -64,12 +64,12 @@ export class Ec2Stack extends Stack {
     );
     instance.addUserData("source /etc/environment");
     instance.addUserData(
-      "printf 'server {\
-        listen 80;\
-        server_name %s\
-        location / {\
-            proxy_pass http://127.0.0.1:8000;\
-      }\
+      "printf 'server {\n\
+        listen 80;\n\
+        server_name %s;\n\
+        location / {\n\
+            proxy_pass http://127.0.0.1:8000;\n\
+      }\n\
     }' $PUBLICIP > /etc/nginx/sites-enabled/fastapi_nginx"
     );
     instance.addUserData(

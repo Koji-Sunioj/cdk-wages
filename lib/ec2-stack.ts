@@ -1,13 +1,17 @@
 import { Stack } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 import { readFileSync } from "fs";
+import { Role } from "aws-cdk-lib/aws-iam";
 
 export interface Ec2StackProps {
   vpc: ec2.Vpc;
   dbSecretKey: string;
+  dbSecretARN: string;
   frontEndSecret: string;
+  frontEndSecretARN: string;
 }
 
 export class Ec2Stack extends Stack {
@@ -22,7 +26,16 @@ export class Ec2Stack extends Stack {
     ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443));
     ec2SecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80));
 
-    const initScript = readFileSync("./assets/init.sh", "utf8");
+    const role = new iam.Role(this, "Ec2Role", {
+      assumedBy: new iam.ServicePrincipal("ec2.amazonaws.com"),
+    });
+
+    role.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ["secretsmanager:GetSecretValue"],
+        resources: [props.dbSecretARN, props.frontEndSecretARN],
+      })
+    );
 
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t3.micro"),
@@ -37,7 +50,10 @@ export class Ec2Stack extends Stack {
       securityGroup: ec2SecurityGroup,
       keyName: "hey",
       userDataCausesReplacement: true,
+      role: role,
     });
+
+    const initScript = readFileSync("./assets/init.sh", "utf8");
 
     instance.addUserData(initScript);
     instance.addUserData(

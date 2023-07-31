@@ -3,8 +3,9 @@ import * as rds from "aws-cdk-lib/aws-rds";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 export class dbStack extends Construct {
-  public readonly dbSecretKey: string;
   public readonly targetVpc: ec2.Vpc;
+  public readonly dbSecretKey: string;
+  public readonly dbSecretKeyARN: string;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -42,6 +43,7 @@ export class dbStack extends Construct {
 
     dataBase.connections.allowFromAnyIpv4(ec2.Port.tcp(5432));
 
+    this.dbSecretKeyARN = dataBase.secret?.secretArn!;
     this.dbSecretKey = dataBase.secret?.secretName!;
     this.targetVpc = vpc;
   }

@@ -54,6 +54,7 @@ export class Ec2Stack extends Stack {
     });
 
     const initScript = readFileSync("./assets/init.sh", "utf8");
+    const postInitScript = readFileSync("./assets/postinit.sh", "utf8");
 
     instance.addUserData(initScript);
     instance.addUserData(
@@ -61,7 +62,9 @@ export class Ec2Stack extends Stack {
       echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment\n\
       export DB_SECRET\nexport FE_SECRET`
     );
-    instance.addUserData("source /etc/environment");
+    instance.addUserData(postInitScript);
+
+    /* instance.addUserData("source /etc/environment");
     instance.addUserData(
       "printf 'server {\n\
         listen 80;\n\
@@ -73,6 +76,6 @@ export class Ec2Stack extends Stack {
     );
     instance.addUserData(
       "service nginx restart\necho $DB_SECRET \nuvicorn main:app --reload"
-    );
+    ); */
   }
 }

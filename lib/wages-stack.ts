@@ -28,6 +28,7 @@ export class WagesStack extends Stack {
     });
 
     const emailTemplateArn = `arn:aws:ses:${this.region}:${this.account}:identity/${emailIdName}`;
+    console.log(emailTemplateArn);
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,

@@ -30,11 +30,14 @@ export class dbStack extends Construct {
       engine,
       vpc,
       instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.T3,
-        ec2.InstanceSize.MICRO
+        ec2.InstanceClass.T4G,
+        ec2.InstanceSize.NANO
       ),
       databaseName: "wages",
       deletionProtection: false,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+      },
     });
 
     dataBase.connections.allowFromAnyIpv4(ec2.Port.tcp(5432));

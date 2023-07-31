@@ -57,10 +57,8 @@ export class Ec2Stack extends Stack {
 
     instance.addUserData(initScript);
     instance.addUserData(
-      `echo "DB_SECRET=${props.dbSecretKey}" >> /etc/environment`
-    );
-    instance.addUserData(
-      `echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment`
+      `echo "DB_SECRET=${props.dbSecretKey}" >> /etc/environment\n\
+      echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment`
     );
     instance.addUserData("source /etc/environment");
     instance.addUserData(
@@ -72,8 +70,6 @@ export class Ec2Stack extends Stack {
       }\n\
     }' $PUBLICIP > /etc/nginx/sites-enabled/fastapi_nginx"
     );
-    instance.addUserData(
-      "service nginx restart && cd fastapi-wages/ && uvicorn main:app --reload"
-    );
+    instance.addUserData("service nginx restart && uvicorn main:app --reload");
   }
 }

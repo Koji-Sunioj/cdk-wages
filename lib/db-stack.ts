@@ -10,21 +10,20 @@ export class dbStack extends Construct {
     super(scope, id);
     const vpc = new ec2.Vpc(this, "WagesVpc", {
       natGateways: 0,
+      subnetConfiguration: [
+        {
+          name: "RdsSubnet",
+          subnetType: ec2.SubnetType.PUBLIC,
+        },
+        {
+          name: "Ec2Subnet",
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+        },
+      ],
     });
 
     const engine = rds.DatabaseInstanceEngine.postgres({
       version: rds.PostgresEngineVersion.VER_15_2,
-    });
-
-    const subnetGroup = new rds.SubnetGroup(this, "MySubnetGroup", {
-      description: "description",
-      vpc: vpc,
-      subnetGroupName: "subnetGroupName",
-      vpcSubnets: {
-        onePerAz: false,
-        subnetGroupName: "subnetGroupName",
-        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-      },
     });
 
     const dataBase = new rds.DatabaseInstance(this, "WagesDatabase", {
@@ -37,7 +36,6 @@ export class dbStack extends Construct {
       databaseName: "wages",
       deletionProtection: false,
       publiclyAccessible: false,
-      subnetGroup: subnetGroup,
     });
 
     dataBase.connections.allowFromAnyIpv4(ec2.Port.tcp(5432));

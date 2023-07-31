@@ -38,7 +38,7 @@ export class Ec2Stack extends Stack {
     );
 
     const instance = new ec2.Instance(this, "WagesVM", {
-      instanceType: new ec2.InstanceType("t3.micro"),
+      instanceType: new ec2.InstanceType("t4g.nano"),
       machineImage: ec2.MachineImage.genericLinux({
         "eu-north-1": "ami-0989fb15ce71ba39e",
       }),
@@ -57,10 +57,10 @@ export class Ec2Stack extends Stack {
 
     instance.addUserData(initScript);
     instance.addUserData(
-      `echo "DB_SECRET=${props.dbSecretKey}"  >> /etc/environment`
+      `echo "DB_SECRET=${props.dbSecretKey}" >> /etc/environment`
     );
     instance.addUserData(
-      `echo "FE_SECRET=${props.frontEndSecret}"  >> /etc/environment`
+      `echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment`
     );
     instance.addUserData("source /etc/environment");
   }

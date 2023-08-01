@@ -1,3 +1,4 @@
+import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as secretsManager from "aws-cdk-lib/aws-secretsmanager";
 import { Stack, StackProps, SecretValue } from "aws-cdk-lib";
@@ -27,11 +28,9 @@ export class WagesStack extends Stack {
       },
     });
 
-    const emailTemplateArn = `arn:aws:ses:${
-      this.region
-    }:${scope.node.getContext(
-      "aws:cdk:toolkit:default-account"
-    )}:identity/ironpond.net`;
+    const emailTemplateArn = `arn:aws:ses:${this.region}:${
+      cdk.Stack.of(this).account
+    }:identity/ironpond.net`;
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,

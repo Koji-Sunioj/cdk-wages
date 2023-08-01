@@ -12,7 +12,6 @@ export interface Ec2StackProps {
   dbSecretARN: string;
   frontEndSecret: string;
   frontEndSecretARN: string;
-  emailTemplateArn: string;
 }
 
 export class Ec2Stack extends Stack {
@@ -38,12 +37,12 @@ export class Ec2Stack extends Stack {
       })
     );
 
-    /* role.addToPolicy(
+    role.addToPolicy(
       new iam.PolicyStatement({
         actions: ["ses:SendTemplatedEmail"],
-        resources: [props.emailTemplateArn],
+        resources: ["*"],
       })
-    ); */
+    );
 
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t4g.nano"),

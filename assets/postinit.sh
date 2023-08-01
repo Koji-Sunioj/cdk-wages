@@ -1,4 +1,15 @@
+export DB_SECRET
+export FE_SECRET
 source /etc/environment
+
+CLOUD_CONFIG=/etc/cloud/cloud.cfg.d/cloud-config.cfg
+touch $CLOUD_CONFIG
+
+for VARIABLE in "#cloud-config" "cloud_final_modules" "- [script-user, always]"
+do
+    echo $VARIABLE >> $CLOUD_CONFIG
+done
+
 printf \
 'server {
         listen 80;

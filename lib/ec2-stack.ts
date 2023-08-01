@@ -38,12 +38,12 @@ export class Ec2Stack extends Stack {
       })
     );
 
-    role.addToPolicy(
+    /* role.addToPolicy(
       new iam.PolicyStatement({
         actions: ["ses:SendTemplatedEmail"],
         resources: [props.emailTemplateArn],
       })
-    );
+    ); */
 
     const instance = new ec2.Instance(this, "WagesVM", {
       instanceType: new ec2.InstanceType("t4g.nano"),
@@ -66,9 +66,7 @@ export class Ec2Stack extends Stack {
 
     instance.addUserData(initScript);
     instance.addUserData(
-      `echo "DB_SECRET=${props.dbSecretKey}" >> /etc/environment\n\
-      echo "FE_SECRET=${props.frontEndSecret}" >> /etc/environment\n\
-      export DB_SECRET\nexport FE_SECRET`
+      `echo -e "DB_SECRET=${props.dbSecretKey}\nFE_SECRET=${props.frontEndSecret}" >> /etc/environment`
     );
     instance.addUserData(postInitScript);
   }

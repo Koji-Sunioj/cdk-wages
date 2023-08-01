@@ -28,9 +28,9 @@ export class WagesStack extends Stack {
       },
     });
 
-    const emailTemplateArn = `arn:aws:ses:${this.region}:${
+    /* const emailTemplateArn = `arn:aws:ses:${this.region}:${
       cdk.Stack.of(this).account
-    }:identity/ironpond.net`;
+    }:identity/ironpond.net`; */
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,
@@ -38,7 +38,7 @@ export class WagesStack extends Stack {
       dbSecretARN: dbSecretKeyARN,
       frontEndSecret: frontEndSecret.secretName,
       frontEndSecretARN: frontEndSecret.secretArn,
-      emailTemplateArn: emailTemplateArn,
+      /* emailTemplateArn: emailTemplateArn, */
     });
   }
 }

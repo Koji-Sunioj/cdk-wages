@@ -59,6 +59,12 @@ export class Ec2Stack extends Construct {
       role: role,
     });
 
+    let eip = new ec2.CfnEIP(this, "WagesElasticIP");
+    new ec2.CfnEIPAssociation(this, "WagesElasticIPAssociation", {
+      eip: eip.ref,
+      instanceId: instance.instanceId,
+    });
+
     const initScript = readFileSync("./assets/init.sh", "utf8");
     const postInitScript = readFileSync("./assets/postinit.sh", "utf8");
 

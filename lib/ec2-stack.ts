@@ -14,7 +14,7 @@ export interface Ec2StackProps {
   frontEndSecretARN: string;
 }
 
-export class Ec2Stack extends Stack {
+export class Ec2Stack extends Construct {
   constructor(scope: Construct, id: string, props: Ec2StackProps) {
     super(scope, id);
 

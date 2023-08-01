@@ -27,7 +27,11 @@ export class WagesStack extends Stack {
       },
     });
 
-    const emailTemplateArn = `arn:aws:ses:${this.region}:${this.account}:identity/ironpond.net`;
+    const emailTemplateArn = `arn:aws:ses:${
+      this.region
+    }:${scope.node.getContext(
+      "aws:cdk:toolkit:default-account"
+    )}:identity/ironpond.net`;
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,

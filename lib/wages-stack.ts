@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 export class WagesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-    new sesStack(this, "Ses-Stack");
+    const { templateName } = new sesStack(this, "Ses-Stack");
 
     const { websiteUrl } = new websiteStack(this, "WagesFrontend");
     const { dbSecretKey, dbSecretKeyARN, targetVpc } = new dbStack(
@@ -28,9 +28,14 @@ export class WagesStack extends Stack {
       },
     });
 
-    const emailTemplateArn = `arn:aws:ses:${this.region}:${
+    const awsPrefix = `arn:aws:ses:${this.region}:${
       cdk.Stack.of(this).account
-    }:identity/*`;
+    }`;
+
+    const emailResources = [
+      `${awsPrefix}:identity/*`,
+      `${awsPrefix}:template/${templateName}`,
+    ];
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,
@@ -38,7 +43,7 @@ export class WagesStack extends Stack {
       dbSecretARN: dbSecretKeyARN,
       frontEndSecret: frontEndSecret.secretName,
       frontEndSecretARN: frontEndSecret.secretArn,
-      emailTemplateArn: emailTemplateArn,
+      emailResources: emailResources,
     });
   }
 }

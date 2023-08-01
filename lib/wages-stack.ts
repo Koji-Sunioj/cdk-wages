@@ -30,7 +30,7 @@ export class WagesStack extends Stack {
 
     const emailTemplateArn = `arn:aws:ses:${this.region}:${
       cdk.Stack.of(this).account
-    }:identity/ironpond.net`;
+    }:identity/*`;
 
     new Ec2Stack(this, "Ec2Stack", {
       vpc: targetVpc,

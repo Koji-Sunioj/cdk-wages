@@ -1,10 +1,8 @@
-import { Stack } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as iam from "aws-cdk-lib/aws-iam";
 
 import { readFileSync } from "fs";
-import { Role } from "aws-cdk-lib/aws-iam";
 
 export interface Ec2StackProps {
   vpc: ec2.Vpc;

@@ -12,7 +12,7 @@ export interface Ec2StackProps {
   dbSecretARN: string;
   frontEndSecret: string;
   frontEndSecretARN: string;
-  /*   emailTemplateArn: string; */
+  emailTemplateArn: string;
 }
 
 export class Ec2Stack extends Construct {
@@ -41,7 +41,7 @@ export class Ec2Stack extends Construct {
     role.addToPolicy(
       new iam.PolicyStatement({
         actions: ["ses:SendTemplatedEmail"],
-        resources: ["*"],
+        resources: [props.emailTemplateArn],
       })
     );
 

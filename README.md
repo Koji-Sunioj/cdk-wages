@@ -1,3 +1,9 @@
+# Motivation
+
+This project was originally intended to deploy a full stack app which included the ability to register, input hourly wages and visualize statistical information on it aggregated by the backend with Python - Pandas.
+
+However, it turned into a learning experience about deploying a REST API on on EC2. Learnings included pointing nginx to point to the python based server (fastapi), automating the creation of environment variables in the virtual machine as produced dynamically by the AWS CDK stack, and editing the cloud config file so that the server still in case of a reboot. I don't have the time (at the moment) to continue working on the statistical data visualizations for the user at the moment, but I might come back to it later.
+
 # Welcome to your CDK TypeScript project
 
 You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`WagesStack`)
